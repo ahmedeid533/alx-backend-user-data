@@ -67,8 +67,8 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main():
-	""" Main function. """
-	db = get_db()
-	cursor = db.cursor()
-	cursor.execute("SELECT * FROM users")
-	[print(user) for user in cursor]
+    """ Main function. """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    [print(user) for user in cursor]
