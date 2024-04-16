@@ -15,8 +15,9 @@ class BasicAuth(Auth):
                                             authorization_header: str) -> str:
         """ extract_base64_authorization_header
         """
-        if authorization_header is None\
-            or type(authorization_header) is not str:
+        if authorization_header is None:
+            return None
+        if type(authorization_header) is not str:
             return None
         if not authorization_header.startswith("Basic "):
             return None
@@ -27,8 +28,9 @@ class BasicAuth(Auth):
                                            ) -> str:
         """ decode_base64_authorization_header
         """
-        if base64_authorization_header is None\
-            or type(base64_authorization_header) is not str:
+        if base64_authorization_header is None:
+            return None
+        if type(base64_authorization_header) is not str:
             return None
         try:
             return base64.b64decode(
@@ -41,8 +43,8 @@ class BasicAuth(Auth):
         """ extract_user_credentials
         """
         if decoded_base64_authorization_header is None\
-            or type(decoded_base64_authorization_header) is not str\
-                or ':' not in decoded_base64_authorization_header:
+                or type(decoded_base64_authorization_header) is not str\
+                    or ':' not in decoded_base64_authorization_header:
             return (None, None)
         return tuple(decoded_base64_authorization_header.split(':', 1))
 
@@ -51,7 +53,7 @@ class BasicAuth(Auth):
         """ user_object_from_credentials
         """
         if user_email is None or user_pwd is None\
-            or type(user_email) is not str or type(user_pwd) is not str:
+                or type(user_email) is not str or type(user_pwd) is not str:
             return None
         user = User.search({'email': user_email})
         if user is None or not user.is_valid_password(user_pwd):
