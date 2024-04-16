@@ -31,6 +31,3 @@ class Auth:
         """ current_user
         """
         return None
-
-
-
