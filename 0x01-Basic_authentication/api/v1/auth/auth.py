@@ -50,7 +50,8 @@ class BasicAuth(Auth):
         auth_header = auth_header[6:]
         from base64 import b64decode
         try:
-            auth_header = b64decode(auth_header.encode('utf-8')).decode('utf-8')
+            auth_header = b64decode(auth_header.encode('utf-8'))\
+                .decode('utf-8')
         except Exception:
             return None
         auth_header = auth_header.split(':')
