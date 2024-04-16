@@ -5,6 +5,7 @@ from flask import request
 from typing import List, Type
 from models.user import User
 from api.v1.auth.auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
@@ -26,11 +27,12 @@ class BasicAuth(Auth):
                                            ) -> str:
         """ decode_base64_authorization_header
         """
-        if base64_authorization_header is None or \
-           type(base64_authorization_header) is not str:
+        if base64_authorization_header is None\
+            or type(base64_authorization_header) is not str:
             return None
         try:
-            return base64_authorization_header.\
-                encode('utf-8').decode('base64')
+            return base64.b64decode(
+                base64_authorization_header.encode('utf-8')).decode('utf-8')
         except Exception:
             return None
+        
