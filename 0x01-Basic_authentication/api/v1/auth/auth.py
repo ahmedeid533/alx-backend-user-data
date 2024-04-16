@@ -31,3 +31,34 @@ class Auth:
         """ current_user
         """
         return None
+
+
+class BasicAuth(Auth):
+    """ BasicAuth class
+    """
+    def current_user(self, request=None) -> Type[User]:
+        """ current_user
+        """
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+        auth_header = self.authorization_header(request)
+        if auth_header is None:
+            return None
+        if auth_header[:6] != 'Basic ':
+            return None
+        auth_header = auth_header[6:]
+        from base64 import b64decode
+        try:
+            auth_header = b64decode(auth_header.encode('utf-8')).decode('utf-8')
+        except Exception:
+            return None
+        auth_header = auth_header.split(':')
+        if len(auth_header) != 2:
+            return None
+        email = auth_header[0]
+        password = auth_header[1]
+        user = User.search({'email': email})
+        if user is None or user[0].is_valid_password(password) is False:
+            return None
+        return user[0]
