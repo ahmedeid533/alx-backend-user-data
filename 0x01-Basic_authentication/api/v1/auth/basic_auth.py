@@ -55,10 +55,13 @@ class BasicAuth(Auth):
         if user_email is None or user_pwd is None\
                 or type(user_email) is not str or type(user_pwd) is not str:
             return None
-        user = User.search({'email': user_email})
-        if user is None or not user.is_valid_password(user_pwd):
+        User.load_from_file()
+        if User.count() == 0:
             return None
-        return user
+        user = User.search({'email': user_email})
+        if user is None or not user[0].is_valid_password(user_pwd):
+            return None
+        return user[0]
 
     def current_user(self, request=None) -> Type[User]:
         """ current_user
